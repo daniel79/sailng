@@ -1,7 +1,6 @@
 angular.module( 'sailng', [
 	'ui.router',
 	'ngSails',
-	'angularMoment',
 	'lodash',
 	'angularMoment',
 	'ui.bootstrap',
@@ -12,7 +11,8 @@ angular.module( 'sailng', [
 	'sailng.header',
 	'sailng.home',
 	'sailng.about',
-	'sailng.messages'
+	'sailng.messages',
+	'sailng.users'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider, $locationProvider ) {

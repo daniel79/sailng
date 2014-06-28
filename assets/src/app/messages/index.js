@@ -11,7 +11,7 @@ angular.module( 'sailng.messages', [
 			}
 		}
 	});
-})
+}) 
 
 .controller( 'MessagesCtrl', function MessagesController( $scope, $sails, lodash, config, titleService, MessageModel ) {
 	titleService.setTitle('Messages');

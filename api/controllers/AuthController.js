@@ -44,7 +44,7 @@ var AuthController = {
       };
     });
 
-    // Render the `auth/login.ext` view
+    // Render the `auth/login.ejs` view
     res.view({
       providers : providers
     , errors    : req.flash('error')

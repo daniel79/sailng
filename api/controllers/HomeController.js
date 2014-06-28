@@ -2,7 +2,8 @@ module.exports = {
 	index: function(req, res) {
 		var navItems = [
 			{url: '/messages', cssClass: 'fa fa-comments', title: 'Messages'},
-			{url: '/about', cssClass: 'fa fa-infoc-circle', title: 'About'}
+			{url: '/about', cssClass: 'fa fa-infoc-circle', title: 'About'},
+			{url: '/users', cssClass: 'fa fa-users', title:'Users'}
 		];
 
 		if (req.isAuthenticated()) {

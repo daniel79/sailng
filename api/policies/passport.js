@@ -1,4 +1,4 @@
-/**
+ /**
  * Passport Middleware
  *
  * Policy for Sails that initializes Passport.js and as well as its built-in
@@ -28,7 +28,6 @@ module.exports = function (req, res, next) {
     passport.session()(req, res, function () {
       // Make the user available throughout the frontend
       res.locals.user = req.user;
-
       next();
     });
   });
