@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit User</h3>
+</div>
+
+<div class="modal-body">
+
+  <form role="form">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input ng-model="eUser.username" class="form-control" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="email">eMail</label>
+      <input ng-model="eUser.email" class="form-control" id="email" placeholder="eMail Adresse" type="email">
+    </div>
+    <div class="form-group">
+      <label for="handle">Handle</label>
+      <input ng-model="eUser.handle" class="form-control" id="handle" placeholder="your Handle" type="email">
+    </div>
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

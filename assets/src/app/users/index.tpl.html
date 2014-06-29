@@ -1,0 +1,33 @@
+<h3>User Administration</h3>
+<table class='table'>
+	<tr>
+		<th></th>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Email</th>
+		<th>Handle</th>
+		<th>Admin</th>
+		
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+
+	<tr ng-repeat="user in users">
+		<td ng-if="user.online"><img src="/images/icon-online.png"></td>
+		<td ng-if="!user.online"> <img src="/images/icon-offline.png"></td>
+		<td>{{ user.id }}</td>
+		<td>{{ user.username }}</td>
+		<td>{{ user.email }}</td>
+		<td>{{ user.handle || '-'}}</td>
+		<td ng-if="user.admin"> <img src="/images/admin.png"></td>
+		<td ng-if="!user.admin"> <img src="/images/pawn.png"></td>
+
+
+		<td><button class="btn btn-sm btn-primary">Show</button></td>
+		<td><button class="btn btn-sm btn-warning" ng-click="editUser(user)">Edit</button></td>
+		<td><button class="btn btn-sm btn-danger">Delete</button></td>
+	</tr> 
+
+
+</table>
