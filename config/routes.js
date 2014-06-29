@@ -35,7 +35,7 @@ module.exports.routes = {
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
 
-  // Custom routes here...
+  // API Routes
   /**
   * User routes
   */

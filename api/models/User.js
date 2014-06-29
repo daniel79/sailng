@@ -12,7 +12,7 @@ module.exports = {
 			required: true,
 			unique: true
 		},
-		first_name: {
+		handle: {
 			type: 'string',
 			required: true
 		},

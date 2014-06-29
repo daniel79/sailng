@@ -1,21 +1,24 @@
-<h2>Messages</h2>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-4">
+    <h2>Messages</h2>
+  </div>
+  <div id="searchBox" class="col-md-4">
+    <div class="right-inner-addon">
+      <i class="fa fa-search"></i>
+      <input type="search"
+         class="form-control" 
+         placeholder="Search" 
+         ng-model="searchstring" />
+    </div>
+  </div>
+</div>
 
-<p ng-show="!currentUser"><a href="/register">Register</a> to post a message!</p>
+
 
 <div class="row">
-
-	<div class="col-md-6">
-
-    <div id="filterMessage">
-      <div class="right-inner-addon">
-        <i class="fa fa-search"></i>
-        <input type="search"
-               class="form-control" 
-               placeholder="Search" 
-               ng-model="searchstring" />
-      </div>
-    </div>
-
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
   	<div id="allMessages">
   		<ul class="chat">
         <li class="clearfix" ng-repeat="message in messages |filter:searchstring | orderBy:updatedAt:reverse ">
@@ -36,9 +39,8 @@
             <button type="button" class="btn btn-danger btn-xs" ng-click="destroyMessage(message)" ng-show="currentUser.id === message.user.id"><i class="fa fa-trash-o"></i></button>            
           </div>
         </li>
-
   		</ul>
-  	</div>
+  	</div> <!-- allMessages -->
 
 		<form id="sendMessage" role="form" ng-submit="createMessage(newMessage)">
 			<div class="input-group">
@@ -48,6 +50,9 @@
   			</div>
 			</div>
 		</form>
+
+    <p ng-show="!currentUser"><a href="/register">Register</a> to post a message!</p>
+
 
 	</div>
 </div>

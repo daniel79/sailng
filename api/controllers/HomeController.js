@@ -19,5 +19,6 @@ module.exports = {
 			navItems: navItems,
 			currentUser: req.user
 		});
+		console.log("Homepage delivered");
 	}
 };

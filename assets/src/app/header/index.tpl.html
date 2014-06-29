@@ -1,7 +1,6 @@
 <div ng-controller="HeaderCtrl">
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-      
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -19,10 +18,9 @@
           </li>
           <li class="divider-vertical"></li>
         </ul>
-      </div>
-      <div class="navbar navbar-right">
-        <ul class="nav navbar-nav">
-          <li ng-if="currentUser" id="current-user-dropdown" class="dropdown">
+
+        <ul ng-if="currentUser" class="nav navbar-nav navbar-right">
+          <li id="current-user-dropdown" class="dropdown">
             <div class="btn-group">
               <a class="btn btn-default btn-sm dropdown-toggle">
                 <i class="fa fa-user"></i> {{currentUser.name}} <span class="caret"></span>
@@ -33,20 +31,19 @@
               </ul>
             </div>
           </li>            
-          
-          <form ng-if="currentUser == null" class="navbar-form navbar-right" role="form" action="/auth/local" method="post">
-            <div class="form-group">
-              <input type="text" class="form-control" id="inputUsername3" name="identifier" placeholder="Username">
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
         </ul>
+          
+        <form ng-if="currentUser == null" class="navbar-form navbar-right" role="form" action="/auth/local" method="post">
+          <div class="form-group">
+            <input type="text" class="form-control" id="inputUsername3" name="identifier" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-success">Sign in</button>
+        </form>
       </div> <!--/.nav-collapse -->
-    
-      
+
     </div> <!-- container -->
   </nav>
 </div>
