@@ -20,75 +20,123 @@ angular.module( 'sailng.users', [
  */
 .controller( 'UserCtrl', function MessagesController( $scope, $sails, $modal, $log, lodash, config, titleService, UserModel ) {
 	titleService.setTitle('Users');
-	$scope.newUser = {};
 	$scope.users = [];
+	$scope.alerts = [];
 	$scope.currentUser = config.currentUser;
+  
 
 	UserModel.getAll($scope).then(function(models) {
 		$scope.users = models;
 	});
 
 
-	// Update User Array when message is received
-	$sails.on('user', function (envelope) {
-		switch(envelope.verb) {
-			case 'created':
-				$scope.users.unshift(envelope.data);
-				break;
-			case 'destroyed':
-				lodash.remove($scope.users, {id: envelope.id});
-				break;
-		}
-	});
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Another alert!'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
 
 
-  // Delete a user 
-	$scope.destroyUser = function(user) {
-		// check here if the current user can do that
-		if (currentUser.admin) {
-			UserModel.delete(user).then(function(model) {
-				// user has been deleted, and removed from $scope.users
-				// ????
-			});
-		}
-	};
+// Update User Array when message is received
+  $sails.on('user', function (envelope) {
+    switch(envelope.verb) {
+      case 'created':
+        $scope.users.unshift(envelope.data);
+        break;
+      case 'destroyed':
+        ($scope.users, {id: envelope.id});
+        break;
+    }
+  });
 
-	$scope.createUser = function(newUser) {
-		UserModel.create(newUser).then(function(model) {
-			$scope.newUser = {};
-		});
-	};
+  /** 
+   * CRUD for Users
+   * 
+   */
 
-  $scope.editUser = function (editUser) {
+  // Create User
+  $scope.addUser = function () {
+    this.editUser({});
+  };
+
+  // Edit User
+  $scope.editUser = function (user) {
     var modalInstance = $modal.open({
       templateUrl: 'users/modal.tpl.html',
       controller: 'ModalInstanceCtrl',
-      resolve: {
-        userToEdit: function () {
-          return editUser;
-        }
+      resove: {
+        modalUser: user
       }
     });
   
     modalInstance.result.then(
-      function (retUser) {
-        //$scope.editUser = retUser;
-        $log.info(retUser);
+      function (editedUser) {
+
+
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
       }
     );
   };
+
+  // Delete a user 
+	$scope.deleteUser = function(user) {
+		// check here if the current user can do that
+		UserModel.delete(user)
+		.catch(function(error) {
+      // something went wrong
+		});
+	};
+
+
 	
 })
 
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance, userToEdit) {
-
-  $scope.eUser = userToEdit;
 
 
-
+.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log) {
+  $scope.eUser={};
+  $scope.alerts = [];
+  
   $scope.ok = function () {
+    $log.info(eUser);
+    // clear Errors
+    alerts = [];
+    // First do Client side validation
+    
+    
+    // Try to save
+    if (eUser.id == null) {
+      // Create User
+      UserModel.create(eUser)
+      .then(function () {
+        $log.info("Create user:" + eUser);
+        $scope.alerts.push({type: 'info', msg: "Create user:" + eUser })
+      })
+      .catch(function() {
+        // something went wrong
+        $log.waring("Error creating user " + eUser);
+        $scope.alerts.push({type: 'danger', msg: "Error creating user " + eUser })
+        
+      });
+    } else {
+      // Update User
+      $log.info("Update user: " + eUser);
+      UserModel.update(eUser)
+      .then(function () {
+        $log.info("Updated user:" + eUser);
+        $scope.alerts.push({type: 'info', msg: "Updated user:" + eUser })
+      })
+      .catch(function() {
+        // something went wrong
+        $log.waring("Error updating user " + eUser);
+        $scope.alerts.push({type: 'danger', msg: "Error updating user " + eUser })
+        
+      });
+    }
+
     $modalInstance.close($scope.eUser);
   };
 

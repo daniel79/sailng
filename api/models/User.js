@@ -28,6 +28,7 @@ module.exports = {
 	},
 
 	getAll: function() {
+		// Return all Users as a Promise in an array
 		return User.find()
 		.then(function (models) {
 			return [models];
@@ -35,6 +36,7 @@ module.exports = {
 	},
 
 	getOne: function(id) {
+		// Return one User as a Promise in an array
 		return User.findOne(id)
 		.then(function (model) {
 			return [model];
