@@ -66,14 +66,16 @@ angular.module( 'sailng.users', [
     var modalInstance = $modal.open({
       templateUrl: 'users/modal.tpl.html',
       controller: 'ModalInstanceCtrl',
-      resove: {
-        modalUser: user
+      resolve: {
+        modalUser: function () {
+            return user;
+        }
       }
     });
   
     modalInstance.result.then(
       function (editedUser) {
-
+        $scope.alerts.push({type: 'info', msg:'User added or updated.'});
 
       }, function () {
         $log.info('Modal dismissed at: ' + new Date());
@@ -96,48 +98,49 @@ angular.module( 'sailng.users', [
 
 
 
-.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log) {
-  $scope.eUser={};
+.controller('ModalInstanceCtrl', function ($scope, $modalInstance, $log, UserModel, modalUser) {
+  $scope.eUser=modalUser;
   $scope.alerts = [];
   
   $scope.ok = function () {
-    $log.info(eUser);
+    $log.info($scope.eUser);
     // clear Errors
-    alerts = [];
+    $scope.alerts = [];
     // First do Client side validation
     
     
     // Try to save
-    if (eUser.id == null) {
+    if ($scope.eUser.id == null) {
       // Create User
-      UserModel.create(eUser)
+      UserModel.create($scope.eUser)
       .then(function () {
-        $log.info("Create user:" + eUser);
-        $scope.alerts.push({type: 'info', msg: "Create user:" + eUser })
+        $log.info("Create user:" + $scope.eUser);
+        $scope.alerts.push({type: 'info', msg: "Create user:" + $scope.eUser })
+        $modalInstance.close($scope.eUser);
       })
       .catch(function() {
         // something went wrong
-        $log.waring("Error creating user " + eUser);
-        $scope.alerts.push({type: 'danger', msg: "Error creating user " + eUser })
+        $log.waring("Error creating user " + $scope.eUser);
+        $scope.alerts.push({type: 'danger', msg: "Error creating user " + $scope.eUser })
         
       });
     } else {
       // Update User
-      $log.info("Update user: " + eUser);
-      UserModel.update(eUser)
+      $log.info("Update user: " + $scope.eUser);
+      UserModel.update($scope.eUser)
       .then(function () {
-        $log.info("Updated user:" + eUser);
-        $scope.alerts.push({type: 'info', msg: "Updated user:" + eUser })
+        $log.info("Updated user:" + $scope.eUser);
+        $scope.alerts.push({type: 'info', msg: "Updated user:" + $scope.eUser })
+        $modalInstance.close($scope.eUser);
       })
       .catch(function() {
         // something went wrong
-        $log.waring("Error updating user " + eUser);
-        $scope.alerts.push({type: 'danger', msg: "Error updating user " + eUser })
+        $log.waring("Error updating user " + $scope.eUser);
+        $scope.alerts.push({type: 'danger', msg: "Error updating user " + $scope.eUser })
         
       });
     }
 
-    $modalInstance.close($scope.eUser);
   };
 
   $scope.cancel = function () {

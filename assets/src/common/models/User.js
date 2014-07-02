@@ -49,7 +49,7 @@ angular.module('models.user', ['lodash', 'services', 'ngSails',])
 
 	this.update =  function(changedModel) {
 		var deferred = $q.defer();
-		var url = utils.prepareUrl(baseModelURL + '/' + model.id);
+		var url = utils.prepareUrl(baseModelURL + '/' + changedModel.id);
 
 		$sails.put(url, changedModel,  function(model) {
 			return deferred.resolve(model);
