@@ -25,28 +25,28 @@ angular.module( 'sailng.users', [
 	$scope.currentUser = config.currentUser;
   
 
+	// Get all Users from Server
 	UserModel.getAll($scope).then(function(models) {
 		$scope.users = models;
 	});
 
-
-  $scope.addAlert = function() {
-    $scope.alerts.push({msg: 'Another alert!'});
-  };
-
+  // Helper function to close the alerts
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
   };
 
 
-// Update User Array when message is received
+  // Update User Array when message is received
   $sails.on('user', function (envelope) {
+    $log.info('received user message:' + envelope);
     switch(envelope.verb) {
       case 'created':
+        $log.info('User created message received.')
         $scope.users.unshift(envelope.data);
         break;
       case 'destroyed':
         ($scope.users, {id: envelope.id});
+        $log.info('User destroyed message received.')
         break;
     }
   });
@@ -89,6 +89,7 @@ angular.module( 'sailng.users', [
 		UserModel.delete(user)
 		.catch(function(error) {
       // something went wrong
+      $log.warning("Error deleting user " + user);
 		});
 	};
 
@@ -112,17 +113,17 @@ angular.module( 'sailng.users', [
     // Try to save
     if ($scope.eUser.id == null) {
       // Create User
+      $log.info("Create user:" + $scope.eUser);
       UserModel.create($scope.eUser)
       .then(function () {
-        $log.info("Create user:" + $scope.eUser);
-        $scope.alerts.push({type: 'info', msg: "Create user:" + $scope.eUser })
+        $log.info("Created user:" + $scope.eUser);
+        $scope.alerts.push({type: 'info', msg: "Created user:" + $scope.eUser });
         $modalInstance.close($scope.eUser);
       })
       .catch(function() {
         // something went wrong
         $log.waring("Error creating user " + $scope.eUser);
-        $scope.alerts.push({type: 'danger', msg: "Error creating user " + $scope.eUser })
-        
+        $scope.alerts.push({type: 'danger', msg: "Error creating user " + $scope.eUser });
       });
     } else {
       // Update User
@@ -130,13 +131,13 @@ angular.module( 'sailng.users', [
       UserModel.update($scope.eUser)
       .then(function () {
         $log.info("Updated user:" + $scope.eUser);
-        $scope.alerts.push({type: 'info', msg: "Updated user:" + $scope.eUser })
+        $scope.alerts.push({type: 'info', msg: "Updated user:" + $scope.eUser });
         $modalInstance.close($scope.eUser);
       })
       .catch(function() {
         // something went wrong
         $log.waring("Error updating user " + $scope.eUser);
-        $scope.alerts.push({type: 'danger', msg: "Error updating user " + $scope.eUser })
+        $scope.alerts.push({type: 'danger', msg: "Error updating user " + $scope.eUser });
         
       });
     }

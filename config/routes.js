@@ -42,8 +42,9 @@ module.exports.routes = {
   'get /api/user': 'UserController.getAll',
   'get /api/user/:id': 'UserController.getOne',
   'post /api/user': 'UserController.create',
-  'delete /api/user:id': 'UserController.destroy',
+  'delete /api/user/:id': 'UserController.delete',
   'put /api/user/:id': 'UserController.update',
+  'get /api/user/checkHandle': 'UserController.checkHandle',
 
   /**
   * Message routes

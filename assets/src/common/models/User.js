@@ -58,6 +58,15 @@ angular.module('models.user', ['lodash', 'services', 'ngSails',])
 		return deferred.promise;
 	};
 	
+  this.checkHandle = function(handle) {
+    var deferred = $q.defer();
+    var url = utils.prepareUrl(baseModelURL + '/checkHandle');
+    $sails.post(url, {handle: handle}, function(exists) {
+      return deferred.resolve(exists);
+    });
+    return deferred.promise;
+  
+	}
 	
 	
 });

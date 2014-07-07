@@ -59,7 +59,7 @@ module.exports = {
 			if (!model) {
 				return res.notFound();
 			}
-			User.delete(id, function(err) {
+			User.destroy(id, function(err) {
 				if (err) {
 					return res.serverError(err);
 				}
@@ -76,7 +76,8 @@ module.exports = {
 			return res.badRequest('No id provided.');
 		}
 		// Otherwise, find and update the model in question
-		User.findOne(id).exec(function(err, model) {
+		User.findOne(id)
+		.exec(function(err, model) {
 			if (err) {
 				return res.serverError(err);
 			}
@@ -92,7 +93,26 @@ module.exports = {
 				return res.json(model);
 			});
 		});
-	}
+	},
+
+  checkHandle: function(req, res) {
+    var handle = req.param('handle');
+    if (handle) {
+      User.findByHandle(handle)
+      .then(function(models) {
+        if (models.length < 1) {
+          return res.json({handleExists: true});
+        } else {
+          return res.json({handleExists: false});
+        }
+      })
+      .catch(function (err) {
+        return res.serverError(err);
+      })
+    } else {
+      return res.badRequest('No handle provided.')
+    }
+  }
 
 
 };
